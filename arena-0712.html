@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kアリーナ横浜 2026/7/12 アリーナ席うめ</title>
+<style>
+  :root{ --ink:#1a1a19; --sub:#56554f; --mut:#8a897f; --line:#e2e1da; --card:#ffffff; --bg:#f6f5f1; --accent:#2f6fd0; --danger:#d23b3b; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif; color:var(--ink); background:var(--bg); line-height:1.5; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:20px 16px 60px; }
+  h1{ font-size:20px; font-weight:600; margin:0; }
+  .meta{ font-size:12px; color:var(--mut); letter-spacing:1px; }
+  .sub{ font-size:13px; color:var(--sub); margin-top:2px; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-top:14px; }
+  .line{ margin-bottom:9px; }
+  .ctrls{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+  label.lbl{ font-size:14px; color:var(--sub); }
+  input[type=number], input[type=text], select{ font:inherit; font-size:14px; padding:7px 9px; border:1px solid #cfceC6; border-radius:8px; background:#fff; color:var(--ink); }
+  input.r{ width:60px; } input.s{ width:150px; }
+  select{ padding:7px 9px; }
+  .up label{ display:inline-flex; align-items:center; gap:4px; font-size:13px; color:var(--sub); }
+  button{ font:inherit; font-size:14px; padding:7px 13px; border:1px solid #c9c8c0; border-radius:8px; background:#fff; color:var(--ink); cursor:pointer; }
+  button:hover{ background:#f1f0ea; }
+  button.primary{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  button.primary:hover{ filter:brightness(1.05); }
+  button.icon{ padding:5px 9px; }
+  .err{ font-size:12px; color:var(--danger); margin-top:3px; display:none; }
+  .errsum{ display:none; font-size:13px; color:var(--danger); background:#fdeaea; border:1px solid #f3c9c9; border-radius:8px; padding:8px 10px; margin-top:9px; }
+  .hint{ font-size:12px; color:var(--mut); margin-top:8px; }
+  .legend{ display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin-top:12px; padding-top:10px; border-top:1px solid var(--line); font-size:13px; color:var(--sub); }
+  .count{ font-size:13px; margin-top:8px; }
+  .board{ background:#fbfbfa; border:1px solid var(--line); border-radius:12px; padding:10px; margin-top:14px; overflow:hidden; }
+  .listhead{ display:flex; align-items:center; justify-content:space-between; }
+  .listhead h2{ font-size:15px; font-weight:600; margin:0; }
+  table.saved{ width:100%; border-collapse:collapse; margin-top:8px; font-size:13px; }
+  table.saved th{ text-align:left; color:var(--mut); font-weight:500; font-size:12px; border-bottom:1px solid var(--line); padding:6px 6px; }
+  table.saved td{ border-bottom:1px solid #efeee8; padding:6px 6px; }
+  .swatch{ display:inline-block; width:12px; height:12px; border-radius:3px; vertical-align:-2px; margin-right:6px; }
+  .empty{ color:var(--mut); font-size:13px; padding:10px 2px; }
+  .small{ font-size:12px; color:var(--mut); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div>
+    <div class="meta">2026.07.12 公演 ・ Kアリーナ横浜</div>
+    <h1>アリーナ席うめ（席番予想）</h1>
+    <div class="sub">出演: Ave Mujica ・ ＝LOVE ・ RAISE A SUILEN ／ 入力して「決定」で登録。データはこのブラウザに保存されます。</div>
+  </div>
+
+  <div class="card">
+    <div id="lines"></div>
+    <div class="ctrls" style="margin-top:6px">
+      <button id="apply" class="primary">決定して登録</button>
+      <button id="add">＋ 入力を追加</button>
+    </div>
+    <div id="errsum" class="errsum"></div>
+    <div class="hint">連番は「番」に <code>12-15</code> や <code>12,13,14</code> とまとめて入力できます。Enterでも決定します。</div>
+    <div id="legend" class="legend"></div>
+    <div id="count" class="count"></div>
+  </div>
+
+  <div class="board"><div id="board"></div></div>
+
+  <div class="card">
+    <div class="listhead">
+      <h2>登録済み（このブラウザ）</h2>
+      <button id="clearall" class="icon">すべて削除</button>
+    </div>
+    <div id="list"></div>
+    <div class="small" style="margin-top:8px">※ 同じブラウザで開くと復元されます。別のブラウザ・端末には共有されません（共有版はサーバー連携が必要です）。</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var SVGNS="http://www.w3.org/2000/svg";
+  var CXP=9,CW=8,BLOCK=180,AISLE=18,CH=11,RYP=15,AISLE_H=15,M_L=46,M_T=72,ROWS=34,AISLE_AFTER=17,NB=7;
+  var FRONT1=[13,13,11,11,9,7,7,5,3,3],REAR1=[2,4,7,9,12,15,17,19],REAR2=[23,26,28,31,34,36,38];
+  var EMPTY="#e9e9e5",EMPTYS="#c2c2bb",LABEL="#52514e",CIRC="#10243f",TICK="#d7d7d1",U_COLOR="#10243f",RED="#d23b3b";
+  var FANS={ ave:{name:"Ave Mujica",c:"#7F77DD",d:"#4a3aa7"}, eql:{name:"＝LOVE",c:"#D4537E",d:"#993556"}, ras:{name:"RAISE A SUILEN",c:"#39cac5",d:"#1c8f8a"} };
+  var FAN_ORDER=["ave","eql","ras"];
+  var KEY="zaseki_kyokohama_0712_v1", OKEY="zaseki_owner";
+
+  function exists(b,r){ if(b===1||b===7) return r>=1&&r<=25; return r>=1&&r<=ROWS; }
+  function cut1(r){ if(r<=10) return FRONT1[r-1]-1; if(r<=17) return 0; return REAR1[r-18]-1; }
+  function cut2(r){ if(r<=27) return 0; return REAR2[r-28]-21; }
+  function srange(b,r){ if(!exists(b,r)) return null;
+    if(b===1){var L=cut1(r);return [1+L,20];}
+    if(b===7){var L2=cut1(r);return [121,140-L2];}
+    if(b===2){var L3=cut2(r);return [21+L3,40];}
+    if(b===6){var L4=cut2(r);return [101,120-L4];}
+    return [20*(b-1)+1,20*b]; }
+  function bleft(b){ return M_L+(b-1)*(BLOCK+AISLE); }
+  function rowY(r){ return M_T+(r-1)*RYP+(r>AISLE_AFTER?AISLE_H:0); }
+  var VB_W=bleft(NB)+BLOCK+M_L, VB_H=rowY(ROWS)+CH+44;
+
+  function buildSVG(){
+    var s='<svg viewBox="0 0 '+VB_W+' '+VB_H+'" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="アリーナ盤面">';
+    for(var r=1;r<=ROWS;r++){ var y=rowY(r);
+      for(var b=1;b<=NB;b++){ var rg=srange(b,r); if(!rg) continue; var bs=20*(b-1)+1;
+        for(var num=rg[0];num<=rg[1];num++){ var x=bleft(b)+(num-bs)*CXP;
+          s+='<rect id="c_'+r+'_'+num+'" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+CW+'" height="'+CH+'" rx="1.5" fill="'+EMPTY+'" stroke="'+EMPTYS+'" stroke-width="0.5"/>';
+        }}}
+    var yt=rowY(1)-10, yb=rowY(ROWS)+CH+18;
+    function lab(x,yy,t){ return '<text x="'+x.toFixed(1)+'" y="'+yy.toFixed(1)+'" font-size="10" fill="'+LABEL+'" text-anchor="middle">'+t+'</text>'; }
+    for(var b2=1;b2<=NB;b2++){ var bl=bleft(b2),bsv=20*(b2-1)+1,bev=20*b2,xs=bl+CW/2,xe=bl+19*CXP+CW/2;
+      s+=lab(xs,yt,bsv)+lab(xe,yt,bev)+lab(xs,yb,bsv)+lab(xe,yb,bev);
+      s+='<line x1="'+(bl-AISLE/2).toFixed(1)+'" y1="'+(rowY(1)-4)+'" x2="'+(bl-AISLE/2).toFixed(1)+'" y2="'+(rowY(ROWS)+CH+4)+'" stroke="'+TICK+'" stroke-width="0.6"/>';
+    }
+    s+='<line x1="'+(bleft(NB)+BLOCK+AISLE/2).toFixed(1)+'" y1="'+(rowY(1)-4)+'" x2="'+(bleft(NB)+BLOCK+AISLE/2).toFixed(1)+'" y2="'+(rowY(ROWS)+CH+4)+'" stroke="'+TICK+'" stroke-width="0.6"/>';
+    for(var i=1;i<NB;i++){ var ax=bleft(i)+BLOCK+AISLE/2, last=(i===1||i===6)?25:ROWS, marks=[1,17,18,last];
+      for(var k=0;k<marks.length;k++){ var rr=marks[k], cy=rowY(rr)+CH/2;
+        s+='<circle cx="'+ax.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="8" fill="'+CIRC+'"/><text x="'+ax.toFixed(1)+'" y="'+(cy+3).toFixed(1)+'" font-size="8.5" fill="#fff" text-anchor="middle" font-weight="500">'+rr+'</text>';
+      }}
+    s+='<text x="'+(VB_W/2)+'" y="'+(rowY(1)-26)+'" font-size="11" fill="'+LABEL+'" text-anchor="middle">席番（横）</text>';
+    return s+'</svg>';
+  }
+  document.getElementById('board').innerHTML=buildSVG();
+  var svg=document.querySelector('#board svg');
+
+  function sw(c){ return '<span class="swatch" style="background:'+c+'"></span>'; }
+  document.getElementById('legend').innerHTML =
+    '<span>'+sw(FANS.ave.c)+'Ave Mujica</span><span>'+sw(FANS.eql.c)+'＝LOVE</span><span>'+sw(FANS.ras.c)+'RAISE A SUILEN</span>'
+   +'<span><span class="swatch" style="background:#cfcfca;color:'+U_COLOR+';font-size:10px;font-weight:600;text-align:center;line-height:12px;width:13px;height:13px">U</span>U＝アップグレード席</span>';
+
+  function seatExists(row,seat){ if(!(row>=1&&row<=34)||!(seat>=1&&seat<=140)) return false; var b=Math.ceil(seat/20); var rg=srange(b,row); return !!rg && seat>=rg[0] && seat<=rg[1]; }
+  function uniq(a){ var o={},r=[]; a.forEach(function(x){ if(!o[x]){o[x]=1;r.push(x);} }); return r; }
+  function parseSeats(str){ var out=[],bad=[]; str.split(',').forEach(function(p){ p=p.trim(); if(!p) return; var m=p.match(/^(\d+)\s*-\s*(\d+)$/); if(m){ var a=+m[1],b=+m[2]; if(a>b){var t=a;a=b;b=t;} for(var s=a;s<=b;s++) out.push(s); } else if(/^\d+$/.test(p)){ out.push(+p); } else { bad.push(p); } }); return {seats:out,bad:bad}; }
+
+  // ---- storage ----
+  function loadEntries(){ try{ return JSON.parse(localStorage.getItem(KEY)||"[]"); }catch(e){ return []; } }
+  function saveEntries(){ try{ localStorage.setItem(KEY, JSON.stringify(entries)); }catch(e){ alert("このブラウザでは保存できませんでした（プライベートモード等）。"); } }
+  var owner; try{ owner=localStorage.getItem(OKEY); if(!owner){ owner="b"+Math.random().toString(36).slice(2)+Date.now().toString(36); localStorage.setItem(OKEY,owner);} }catch(e){ owner="local"; }
+  var entries = loadEntries();
+
+  // ---- board render from entries ----
+  var uMarks=[], filled={};
+  function addU(el){ var x=parseFloat(el.getAttribute('x')), y=parseFloat(el.getAttribute('y'));
+    var t=document.createElementNS(SVGNS,'text');
+    t.setAttribute('x',(x+CW/2).toFixed(1)); t.setAttribute('y',(y+CH-2.4).toFixed(1));
+    t.setAttribute('text-anchor','middle'); t.setAttribute('font-size','8'); t.setAttribute('font-weight','600');
+    t.setAttribute('fill',U_COLOR); t.setAttribute('pointer-events','none'); t.textContent='U';
+    svg.appendChild(t); uMarks.push(t); }
+  function clearBoard(){ for(var id in filled){ var el=document.getElementById(id); if(el){ el.setAttribute('fill',EMPTY); el.setAttribute('stroke',EMPTYS); el.setAttribute('stroke-width','0.5'); } } filled={};
+    uMarks.forEach(function(t){ if(t.parentNode) t.parentNode.removeChild(t); }); uMarks=[]; }
+  function renderBoard(){ clearBoard(); var counts={ave:0,eql:0,ras:0}, up=0, total=0;
+    entries.forEach(function(e){ var F=FANS[e.fan]||FANS.ave;
+      e.seats.forEach(function(seat){ var id='c_'+e.row+'_'+seat; var el=document.getElementById(id); if(el){ el.setAttribute('fill',F.c); el.setAttribute('stroke',F.d); el.setAttribute('stroke-width','0.6'); filled[id]=1; if(e.up) addU(el); counts[e.fan]=(counts[e.fan]||0)+1; total++; if(e.up) up++; } });
+    });
+    function dot(c){return '<span class="swatch" style="background:'+c+'"></span>';}
+    document.getElementById('count').innerHTML =
+      dot(FANS.ave.c)+'Ave '+counts.ave+' &nbsp; '+dot(FANS.eql.c)+'＝LOVE '+counts.eql+' &nbsp; '+dot(FANS.ras.c)+'RAS '+counts.ras
+      +' &nbsp;｜&nbsp; アップグレード '+up+' &nbsp;｜&nbsp; 計 '+total+' 席';
+  }
+
+  // ---- saved list ----
+  function renderList(){
+    var box=document.getElementById('list');
+    if(entries.length===0){ box.innerHTML='<div class="empty">まだ登録がありません。</div>'; return; }
+    var rows=entries.map(function(e){ var F=FANS[e.fan]||FANS.ave;
+      return '<tr><td>'+e.row+' 列</td><td>'+e.seatStr+' 番</td><td>'+sw(F.c)+F.name+'</td><td>'+(e.up?'U':'')+'</td>'
+        +'<td style="text-align:right"><button class="icon del" data-id="'+e.id+'">削除</button></td></tr>'; }).join('');
+    box.innerHTML='<table class="saved"><thead><tr><th>列</th><th>番</th><th>ファン</th><th>UP</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
+  }
+
+  // ---- input lines + validation ----
+  function makeLine(rv,sv,fan,up){ var d=document.createElement('div'); d.className='line';
+    var opts=FAN_ORDER.map(function(k){return '<option value="'+k+'"'+(k===fan?' selected':'')+'>'+FANS[k].name+'</option>';}).join('');
+    d.innerHTML='<div class="ctrls">'
+      +'<input class="r" type="number" min="1" max="34" placeholder="列" value="'+(rv||'')+'"><span class="lbl">列</span>'
+      +'<input class="s" type="text" inputmode="numeric" placeholder="番 (例 12 / 12-15)" value="'+(sv||'')+'"><span class="lbl">番</span>'
+      +'<select class="fan">'+opts+'</select>'
+      +'<span class="up"><label><input type="checkbox" class="upc"'+(up?' checked':'')+'> アップグレード席</label></span>'
+      +'<button class="del-line icon" aria-label="削除">×</button>'
+      +'</div><div class="err"></div>';
+    return d; }
+  var lines=document.getElementById('lines');
+  function addLine(focus){ var l=makeLine(); lines.appendChild(l); if(focus) l.querySelector('.r').focus(); return l; }
+
+  function validateLine(line){
+    var rv=line.querySelector('.r').value.trim(), sv=line.querySelector('.s').value.trim();
+    var res={errors:[],rowBad:false,seatBad:false,seats:[],seatStr:sv,fan:line.querySelector('.fan').value,up:line.querySelector('.upc').checked,row:null,skip:false};
+    if(!rv && !sv){ res.skip=true; return res; }
+    if(!rv){ res.errors.push('列を入力してください'); res.rowBad=true; }
+    if(!sv){ res.errors.push('番を入力してください'); res.seatBad=true; }
+    if(!rv || !sv) return res;
+    var rowOk=/^\d+$/.test(rv); var row=parseInt(rv,10); res.row=row;
+    if(!rowOk || row<1 || row>34){ res.errors.push('列は 1〜34 の数字'); res.rowBad=true; }
+    var pr=parseSeats(sv); res.seats=pr.seats;
+    if(pr.bad.length){ res.errors.push('番の形式が不正: '+pr.bad.join(', ')); res.seatBad=true; }
+    if(pr.seats.length===0 && pr.bad.length===0){ res.errors.push('番を入力してください'); res.seatBad=true; }
+    var oor=pr.seats.filter(function(s){return s<1||s>140;});
+    if(oor.length){ res.errors.push('番は 1〜140（範囲外: '+uniq(oor).join(', ')+'）'); res.seatBad=true; }
+    if(rowOk && row>=1 && row<=34){ var ne=pr.seats.filter(function(s){return s>=1&&s<=140 && !seatExists(row,s);});
+      if(ne.length){ res.errors.push(row+'列に存在しない席番: '+uniq(ne).join(', ')); res.seatBad=true; } }
+    res.valid = res.errors.length===0; return res;
+  }
+
+  function confirmApply(){
+    var snapshot=Array.prototype.slice.call(lines.querySelectorAll('.line'));
+    var added=0, errLines=0;
+    snapshot.forEach(function(line){
+      var res=validateLine(line);
+      var errEl=line.querySelector('.err'), rEl=line.querySelector('.r'), sEl=line.querySelector('.s');
+      rEl.style.borderColor=''; sEl.style.borderColor=''; errEl.style.display='none'; errEl.textContent='';
+      if(res.skip){ if(lines.children.length>1) line.remove(); return; }
+      if(!res.valid){ errLines++; errEl.style.display='block'; errEl.textContent='⚠ '+res.errors.join(' / ');
+        if(res.rowBad) rEl.style.borderColor=RED; if(res.seatBad) sEl.style.borderColor=RED; return; }
+      entries.push({ id:Date.now().toString(36)+Math.random().toString(36).slice(2,6), row:res.row, seatStr:res.seatStr, seats:res.seats, fan:res.fan, up:res.up, owner:owner });
+      added++; line.remove();
+    });
+    if(added>0) saveEntries();
+    if(lines.children.length===0) addLine(true);
+    renderBoard(); renderList();
+    var sum=document.getElementById('errsum');
+    if(errLines>0){ sum.style.display='block'; sum.textContent='⚠ '+errLines+' 行にエラーがあります。赤い欄を修正して、もう一度「決定」を押してください。'; }
+    else { sum.style.display='none'; sum.textContent=''; }
+  }
+
+  // ---- events ----
+  lines.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); confirmApply(); } });
+  lines.addEventListener('click', function(e){ var b=e.target.closest('.del-line'); if(!b) return; var ln=b.closest('.line'); if(lines.children.length>1){ ln.remove(); } else { ln.querySelector('.r').value=''; ln.querySelector('.s').value=''; ln.querySelector('.upc').checked=false; ln.querySelector('.err').style.display='none'; } });
+  document.getElementById('apply').addEventListener('click', confirmApply);
+  document.getElementById('add').addEventListener('click', function(){ addLine(true); });
+  document.getElementById('list').addEventListener('click', function(e){ var b=e.target.closest('.del'); if(!b) return; var id=b.getAttribute('data-id'); entries=entries.filter(function(x){return x.id!==id;}); saveEntries(); renderBoard(); renderList(); });
+  document.getElementById('clearall').addEventListener('click', function(){ if(entries.length && confirm('このブラウザの登録をすべて削除しますか？')){ entries=[]; saveEntries(); renderBoard(); renderList(); } });
+
+  addLine(false);
+  renderBoard();
+  renderList();
+})();
+</script>
+</body>
+</html>
