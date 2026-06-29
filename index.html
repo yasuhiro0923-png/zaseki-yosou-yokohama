@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-<title>Kアリーナ横浜 2026/7/12 アリーナ席うめ</title>
+<title>BEAT AX SUMMER EDITION 2026 7/12｜アリーナ勢力図</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
@@ -18,8 +18,11 @@
   body{ font-family:"Zen Kaku Gothic New",system-ui,sans-serif; color:var(--ink); background:var(--bg); line-height:1.6; -webkit-font-smoothing:antialiased; }
   .wrap{ max-width:760px; margin:0 auto; padding:18px 14px 56px; }
   .eyebrow{ font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--mut); font-weight:500; }
-  h1{ font-size:23px; font-weight:500; margin:4px 0 0; letter-spacing:.01em; }
-  .lead{ font-size:13px; color:var(--ink2); margin-top:5px; }
+  .event{ display:inline-block; font-size:13px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); font-weight:700; border-bottom:2px solid var(--ink); padding-bottom:5px; }
+  .event span{ color:var(--mut); font-weight:500; }
+  h1{ font-size:27px; font-weight:500; margin:12px 0 0; letter-spacing:.02em; }
+  .date{ font-size:12px; letter-spacing:.12em; color:var(--ink2); margin-top:4px; }
+  .lead{ font-size:13.5px; color:var(--ink2); margin-top:9px; max-width:46em; }
   .acts{ display:flex; gap:7px; flex-wrap:wrap; margin-top:9px; }
   .act{ font-size:12px; letter-spacing:.02em; padding:3px 10px; border:1px solid var(--line2); border-radius:999px; color:var(--ink2); }
   .act i{ display:inline-block; width:8px; height:8px; border-radius:2px; margin-right:6px; vertical-align:0; }
@@ -43,8 +46,15 @@
 
   .meta-row{ display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; margin-top:11px; font-size:13px; color:var(--ink2); }
   .swatch{ display:inline-block; width:11px; height:11px; border-radius:3px; vertical-align:-1px; margin-right:6px; }
-  .count{ font-size:13px; color:var(--ink); margin-top:8px; font-variant-numeric:tabular-nums; }
-  .count .swatch{ width:10px; height:10px; }
+  .balance{ margin-top:13px; }
+  .bar{ display:flex; height:18px; border-radius:9px; overflow:hidden; background:#e8e7e1; border:1px solid var(--line); }
+  .bar .seg{ height:100%; transition:width .4s ease; }
+  .shares{ display:flex; flex-wrap:wrap; gap:7px 20px; margin-top:11px; font-size:13.5px; }
+  .share{ display:flex; align-items:baseline; gap:6px; }
+  .share .nm{ color:var(--ink2); }
+  .share b{ font-weight:500; font-variant-numeric:tabular-nums; }
+  .share .pct{ color:var(--mut); font-size:12px; font-variant-numeric:tabular-nums; }
+  .tot{ font-size:12px; color:var(--mut); margin-top:9px; letter-spacing:.03em; font-variant-numeric:tabular-nums; }
 
   /* panel / form */
   .panel{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px; }
@@ -82,14 +92,15 @@
 <body>
 <div class="wrap">
   <header>
-    <div class="eyebrow">K Arena Yokohama &middot; Seat Map</div>
-    <h1>アリーナ席うめ</h1>
-    <div class="lead">2026.07.12 公演 ／ 列・番・ファンを入力すると、みんなの席が盤面に集まります。</div>
+    <div class="event">BEAT AX <span>Summer Edition</span> 2026</div>
+    <h1>アリーナ勢力図</h1>
+    <div class="date">7.12 公演 &middot; Kアリーナ横浜</div>
+    <div class="lead">3勢力（Ave Mujica / ＝LOVE / RAISE A SUILEN）がアリーナをどう占めるか――みんなの席番を集めて描く、当日の勢力図。</div>
     <div class="acts" id="acts"></div>
   </header>
 
   <section>
-    <div class="sec-label">Arena map</div>
+    <div class="sec-label">Territory map &middot; 勢力図</div>
     <div class="board">
       <div class="viewport" id="viewport"><div class="stage" id="stage"></div></div>
       <div class="hint" id="hint">ピンチ / ホイールで拡大・ドラッグで移動</div>
@@ -100,7 +111,7 @@
       </div>
     </div>
     <div class="meta-row" id="legend"></div>
-    <div class="count" id="count"></div>
+    <div class="balance" id="balance"></div>
   </section>
 
   <section>
@@ -252,10 +263,12 @@
     uMarks.forEach(function(t){ if(t.parentNode) t.parentNode.removeChild(t); }); uMarks=[]; }
   function renderBoard(){ clearBoard(); var counts={ave:0,eql:0,ras:0}, up=0, total=0;
     entries.forEach(function(e){ var F=FANS[e.fan]||FANS.ave; (e.seats||[]).forEach(function(seat){ var id='c_'+e.row_no+'_'+seat; var el=document.getElementById(id); if(el){ el.setAttribute('fill',F.c); el.setAttribute('stroke',F.d); el.setAttribute('stroke-width','0.6'); filled[id]=1; if(e.upgrade) addU(el); counts[e.fan]=(counts[e.fan]||0)+1; total++; if(e.upgrade) up++; } }); });
-    function dot(c){return '<span class="swatch" style="background:'+c+'"></span>';}
-    document.getElementById('count').innerHTML =
-      dot(FANS.ave.c)+'Ave '+counts.ave+'　'+dot(FANS.eql.c)+'＝LOVE '+counts.eql+'　'+dot(FANS.ras.c)+'RAS '+counts.ras
-      +'　／　アップグレード '+up+'　／　計 '+total+' 席';
+    function pct(n){ return total? Math.round(n/total*100):0; }
+    var segs=FAN_ORDER.map(function(k){ var w=total?(counts[k]/total*100):0; return '<div class="seg" style="width:'+w.toFixed(2)+'%;background:'+FANS[k].c+'" title="'+FANS[k].name+'"></div>'; }).join('');
+    var shares=FAN_ORDER.map(function(k){ return '<span class="share">'+sw(FANS[k].c)+'<span class="nm">'+FANS[k].name+'</span> <b>'+counts[k]+'席</b> <span class="pct">'+pct(counts[k])+'%</span></span>'; }).join('');
+    document.getElementById('balance').innerHTML = (total===0)
+      ? '<div class="bar"></div><div class="tot">まだ登録がありません。最初の1席を入れて、勢力図を動かそう。</div>'
+      : '<div class="bar">'+segs+'</div><div class="shares">'+shares+'</div><div class="tot">計 '+total+' 席　／　アップグレード '+up+' 席</div>';
   }
   function renderMyList(){
     var mine=entries.filter(function(e){ return myIds.has(e.id); });
