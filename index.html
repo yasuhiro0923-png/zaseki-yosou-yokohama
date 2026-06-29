@@ -2,76 +2,136 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kアリーナ横浜 2026/7/12 アリーナ席うめ（みんなで共有）</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title>Kアリーナ横浜 2026/7/12 アリーナ席うめ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root{ --ink:#1a1a19; --sub:#56554f; --mut:#8a897f; --line:#e2e1da; --card:#ffffff; --bg:#f6f5f1; --accent:#2f6fd0; --danger:#d23b3b; }
-  *{ box-sizing:border-box; }
-  body{ margin:0; font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif; color:var(--ink); background:var(--bg); line-height:1.5; }
-  .wrap{ max-width:1180px; margin:0 auto; padding:20px 16px 60px; }
-  h1{ font-size:20px; font-weight:600; margin:0; }
-  .meta{ font-size:12px; color:var(--mut); letter-spacing:1px; }
-  .sub{ font-size:13px; color:var(--sub); margin-top:2px; }
-  .card{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-top:14px; }
-  .line{ margin-bottom:9px; }
-  .ctrls{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
-  label.lbl{ font-size:14px; color:var(--sub); }
-  input[type=number], input[type=text], select{ font:inherit; font-size:14px; padding:7px 9px; border:1px solid #cfcec6; border-radius:8px; background:#fff; color:var(--ink); }
-  input.r{ width:60px; } input.s{ width:150px; }
-  button{ font:inherit; font-size:14px; padding:7px 13px; border:1px solid #c9c8c0; border-radius:8px; background:#fff; color:var(--ink); cursor:pointer; }
-  button:hover{ background:#f1f0ea; }
-  button.primary{ background:var(--accent); border-color:var(--accent); color:#fff; }
-  button.primary:hover{ filter:brightness(1.05); }
-  button.icon{ padding:5px 9px; }
-  button:disabled{ opacity:.5; cursor:default; }
-  .err{ font-size:12px; color:var(--danger); margin-top:3px; display:none; }
-  .errsum{ display:none; font-size:13px; color:var(--danger); background:#fdeaea; border:1px solid #f3c9c9; border-radius:8px; padding:8px 10px; margin-top:9px; }
-  .hint{ font-size:12px; color:var(--mut); margin-top:8px; }
-  .legend{ display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin-top:12px; padding-top:10px; border-top:1px solid var(--line); font-size:13px; color:var(--sub); }
-  .count{ font-size:13px; margin-top:8px; }
-  .board{ background:#fbfbfa; border:1px solid var(--line); border-radius:12px; padding:10px; margin-top:14px; overflow:hidden; }
-  .listhead{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
-  .listhead h2{ font-size:15px; font-weight:600; margin:0; }
-  table.saved{ width:100%; border-collapse:collapse; margin-top:8px; font-size:13px; }
-  table.saved th{ text-align:left; color:var(--mut); font-weight:500; font-size:12px; border-bottom:1px solid var(--line); padding:6px 6px; }
-  table.saved td{ border-bottom:1px solid #efeee8; padding:6px 6px; }
-  .swatch{ display:inline-block; width:12px; height:12px; border-radius:3px; vertical-align:-2px; margin-right:6px; }
-  .empty{ color:var(--mut); font-size:13px; padding:10px 2px; }
-  .small{ font-size:12px; color:var(--mut); }
-  .status{ font-size:12px; color:var(--mut); }
+  :root{
+    --bg:#f4f1ec; --surface:#ffffff; --ink:#201e1b; --ink2:#55514a; --mut:#928d83;
+    --line:#e7e3da; --line2:#d9d4c9; --accent:#1f1d1b; --danger:#b8442f; --danger-bg:#f8ece8;
+    --r:10px;
+  }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{ margin:0; }
+  body{ font-family:"Zen Kaku Gothic New",system-ui,sans-serif; color:var(--ink); background:var(--bg); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:760px; margin:0 auto; padding:18px 14px 56px; }
+  .eyebrow{ font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--mut); font-weight:500; }
+  h1{ font-size:23px; font-weight:500; margin:4px 0 0; letter-spacing:.01em; }
+  .lead{ font-size:13px; color:var(--ink2); margin-top:5px; }
+  .acts{ display:flex; gap:7px; flex-wrap:wrap; margin-top:9px; }
+  .act{ font-size:12px; letter-spacing:.02em; padding:3px 10px; border:1px solid var(--line2); border-radius:999px; color:var(--ink2); }
+  .act i{ display:inline-block; width:8px; height:8px; border-radius:2px; margin-right:6px; vertical-align:0; }
+
+  section{ margin-top:22px; }
+  .sec-label{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--mut); font-weight:500; display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .sec-label::before{ content:""; width:18px; height:1px; background:var(--line2); }
+
+  /* board hero */
+  .board{ position:relative; background:var(--surface); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  .viewport{ position:relative; width:100%; height:clamp(300px,56vh,600px); overflow:hidden; touch-action:none; background:
+      linear-gradient(var(--line) 0.5px,transparent 0.5px) 0 0/100% 100%; background-color:#fbfaf7; cursor:grab; }
+  .viewport.grabbing{ cursor:grabbing; }
+  .stage{ position:absolute; top:0; left:0; transform-origin:0 0; will-change:transform; }
+  .stage svg{ display:block; }
+  .toolbar{ position:absolute; right:10px; bottom:10px; display:flex; gap:6px; align-items:center; }
+  .zbtn{ width:38px; height:38px; border:1px solid var(--line2); background:rgba(255,255,255,.92); border-radius:10px; font-size:18px; color:var(--ink); display:flex; align-items:center; justify-content:center; cursor:pointer; backdrop-filter:blur(4px); }
+  .zbtn.fit{ width:auto; padding:0 12px; font-size:12px; letter-spacing:.04em; }
+  .zbtn:active{ transform:scale(.95); }
+  .hint{ position:absolute; left:12px; top:11px; font-size:11px; letter-spacing:.03em; color:var(--mut); background:rgba(255,255,255,.82); padding:3px 9px; border-radius:999px; pointer-events:none; transition:opacity .5s; }
+
+  .meta-row{ display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; margin-top:11px; font-size:13px; color:var(--ink2); }
+  .swatch{ display:inline-block; width:11px; height:11px; border-radius:3px; vertical-align:-1px; margin-right:6px; }
+  .count{ font-size:13px; color:var(--ink); margin-top:8px; font-variant-numeric:tabular-nums; }
+  .count .swatch{ width:10px; height:10px; }
+
+  /* panel / form */
+  .panel{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px; }
+  .line{ margin-bottom:10px; }
+  .ctrls{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+  .lbl{ font-size:14px; color:var(--ink2); }
+  input[type=number],input[type=text],select{ font:inherit; font-size:16px; height:44px; padding:0 11px; border:1px solid var(--line2); border-radius:10px; background:#fff; color:var(--ink); }
+  input.r{ width:64px; text-align:center; } input.s{ flex:1; min-width:120px; }
+  select{ height:44px; }
+  .chk{ display:inline-flex; align-items:center; gap:7px; font-size:14px; color:var(--ink2); height:44px; }
+  .chk input{ width:18px; height:18px; }
+  button{ font:inherit; font-size:15px; height:44px; padding:0 16px; border:1px solid var(--line2); border-radius:10px; background:#fff; color:var(--ink); cursor:pointer; }
+  button:hover{ background:#f3f1ec; }
+  button.primary{ background:var(--accent); border-color:var(--accent); color:#fbfaf7; letter-spacing:.04em; }
+  button.primary:active{ transform:scale(.99); }
+  button.del-line{ width:44px; padding:0; color:var(--mut); }
+  button.ghost{ background:transparent; border-color:var(--line2); }
+  .btnrow{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:4px; }
+  .status{ font-size:12px; color:var(--mut); margin-left:auto; }
+  .err{ font-size:12px; color:var(--danger); margin-top:4px; display:none; }
+  .errsum{ display:none; font-size:13px; color:var(--danger); background:var(--danger-bg); border:1px solid #eccfc6; border-radius:10px; padding:9px 11px; margin-top:10px; }
+  .hinttext{ font-size:12px; color:var(--mut); margin-top:9px; }
+  code{ background:#efece5; padding:1px 6px; border-radius:5px; font-size:12px; }
+
+  .listhead{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:4px; }
+  table.saved{ width:100%; border-collapse:collapse; font-size:14px; }
+  table.saved th{ text-align:left; color:var(--mut); font-weight:500; font-size:11px; letter-spacing:.08em; text-transform:uppercase; border-bottom:1px solid var(--line); padding:8px 6px; }
+  table.saved td{ border-bottom:1px solid #f0ede6; padding:9px 6px; }
+  table.saved td button{ height:34px; padding:0 12px; font-size:13px; }
+  .empty{ color:var(--mut); font-size:13px; padding:14px 2px; }
+  .foot{ font-size:11.5px; color:var(--mut); margin-top:22px; line-height:1.7; }
+  @media(max-width:520px){ .wrap{ padding:16px 11px 48px; } h1{ font-size:21px; } input.r{ width:58px; } }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div>
-    <div class="meta">2026.07.12 公演 ・ Kアリーナ横浜 ・ みんなで共有</div>
-    <h1>アリーナ席うめ（席番予想）</h1>
-    <div class="sub">出演: Ave Mujica ・ ＝LOVE ・ RAISE A SUILEN ／ 入力して「決定」で登録。みんなの登録が盤面に反映されます。</div>
-  </div>
+  <header>
+    <div class="eyebrow">K Arena Yokohama &middot; Seat Map</div>
+    <h1>アリーナ席うめ</h1>
+    <div class="lead">2026.07.12 公演 ／ 列・番・ファンを入力すると、みんなの席が盤面に集まります。</div>
+    <div class="acts" id="acts"></div>
+  </header>
 
-  <div class="card">
-    <div id="lines"></div>
-    <div class="ctrls" style="margin-top:6px">
-      <button id="apply" class="primary">決定して登録</button>
-      <button id="add">＋ 入力を追加</button>
-      <button id="reload">最新に更新</button>
-      <span id="status" class="status"></span>
+  <section>
+    <div class="sec-label">Arena map</div>
+    <div class="board">
+      <div class="viewport" id="viewport"><div class="stage" id="stage"></div></div>
+      <div class="hint" id="hint">ピンチ / ホイールで拡大・ドラッグで移動</div>
+      <div class="toolbar">
+        <div class="zbtn" id="zout" aria-label="縮小">&minus;</div>
+        <div class="zbtn fit" id="zfit">全体</div>
+        <div class="zbtn" id="zin" aria-label="拡大">&plus;</div>
+      </div>
     </div>
-    <div id="errsum" class="errsum"></div>
-    <div class="hint">連番は「番」に <code>12-15</code> や <code>12,13,14</code> とまとめて入力できます。Enterでも決定します。</div>
-    <div id="legend" class="legend"></div>
-    <div id="count" class="count"></div>
-  </div>
+    <div class="meta-row" id="legend"></div>
+    <div class="count" id="count"></div>
+  </section>
 
-  <div class="board"><div id="board"></div></div>
-
-  <div class="card">
-    <div class="listhead">
-      <h2>自分の登録（このブラウザ）</h2>
-      <button id="clearall" class="icon">自分の登録をすべて削除</button>
+  <section>
+    <div class="sec-label">Add your seat</div>
+    <div class="panel">
+      <div id="lines"></div>
+      <div class="btnrow">
+        <button id="apply" class="primary">決定して登録</button>
+        <button id="add" class="ghost">＋ 入力を追加</button>
+        <button id="reload" class="ghost">更新</button>
+        <span id="status" class="status"></span>
+      </div>
+      <div id="errsum" class="errsum"></div>
+      <div class="hinttext">連番は「番」に <code>12-15</code> や <code>12,13,14</code> とまとめて入力できます。</div>
     </div>
-    <div id="list"></div>
-    <div class="small" style="margin-top:8px">※ 盤面はみんなの登録の合算です。削除できるのは「このブラウザで登録したもの」だけです（他の人の登録は消せません）。</div>
+  </section>
+
+  <section>
+    <div class="sec-label">Your entries</div>
+    <div class="panel">
+      <div class="listhead">
+        <span style="font-size:13px;color:var(--ink2)">このブラウザで登録したものだけ削除できます</span>
+        <button id="clearall" class="ghost" style="height:36px;padding:0 12px;font-size:13px">すべて削除</button>
+      </div>
+      <div id="list"></div>
+    </div>
+  </section>
+
+  <div class="foot">
+    盤面はみんなの登録の合算です。投稿者の情報は保持しません。削除できるのは「このブラウザで登録したもの」だけです（他の人の登録は消せません）。<br>
+    席番は実際の固定席番（1〜140 / 全34列）を再現。前後の角は実際の座席図にあわせて欠けています。
   </div>
 </div>
 
@@ -86,7 +146,7 @@
   var SVGNS="http://www.w3.org/2000/svg";
   var CXP=9,CW=8,BLOCK=180,AISLE=18,CH=11,RYP=15,AISLE_H=15,M_L=46,M_T=72,ROWS=34,AISLE_AFTER=17,NB=7;
   var FRONT1=[13,13,11,11,9,7,7,5,3,3],REAR1=[2,4,7,9,12,15,17,19],REAR2=[23,26,28,31,34,36,38];
-  var EMPTY="#e9e9e5",EMPTYS="#c2c2bb",LABEL="#52514e",CIRC="#10243f",TICK="#d7d7d1",U_COLOR="#10243f",RED="#d23b3b";
+  var EMPTY="#e8e7e1",EMPTYS="#cbc8bf",LABEL="#6b675f",CIRC="#23211d",TICK="#ddd9cf",U_COLOR="#1c1a17";
   var FANS={ ave:{name:"Ave Mujica",c:"#7F77DD",d:"#4a3aa7"}, eql:{name:"＝LOVE",c:"#D4537E",d:"#993556"}, ras:{name:"RAISE A SUILEN",c:"#39cac5",d:"#1c8f8a"} };
   var FAN_ORDER=["ave","eql","ras"];
 
@@ -104,11 +164,11 @@
   var VB_W=bleft(NB)+BLOCK+M_L, VB_H=rowY(ROWS)+CH+44;
 
   function buildSVG(){
-    var s='<svg viewBox="0 0 '+VB_W+' '+VB_H+'" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="アリーナ盤面">';
+    var s='<svg width="'+VB_W+'" height="'+VB_H+'" viewBox="0 0 '+VB_W+' '+VB_H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="アリーナ盤面">';
     for(var r=1;r<=ROWS;r++){ var y=rowY(r);
       for(var b=1;b<=NB;b++){ var rg=srange(b,r); if(!rg) continue; var bs=20*(b-1)+1;
         for(var num=rg[0];num<=rg[1];num++){ var x=bleft(b)+(num-bs)*CXP;
-          s+='<rect id="c_'+r+'_'+num+'" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+CW+'" height="'+CH+'" rx="1.5" fill="'+EMPTY+'" stroke="'+EMPTYS+'" stroke-width="0.5"/>';
+          s+='<rect id="c_'+r+'_'+num+'" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+CW+'" height="'+CH+'" rx="1.6" fill="'+EMPTY+'" stroke="'+EMPTYS+'" stroke-width="0.5"/>';
         }}}
     var yt=rowY(1)-10, yb=rowY(ROWS)+CH+18;
     function lab(x,yy,t){ return '<text x="'+x.toFixed(1)+'" y="'+yy.toFixed(1)+'" font-size="10" fill="'+LABEL+'" text-anchor="middle">'+t+'</text>'; }
@@ -119,42 +179,73 @@
     s+='<line x1="'+(bleft(NB)+BLOCK+AISLE/2).toFixed(1)+'" y1="'+(rowY(1)-4)+'" x2="'+(bleft(NB)+BLOCK+AISLE/2).toFixed(1)+'" y2="'+(rowY(ROWS)+CH+4)+'" stroke="'+TICK+'" stroke-width="0.6"/>';
     for(var i=1;i<NB;i++){ var ax=bleft(i)+BLOCK+AISLE/2, last=(i===1||i===6)?25:ROWS, marks=[1,17,18,last];
       for(var k=0;k<marks.length;k++){ var rr=marks[k], cy=rowY(rr)+CH/2;
-        s+='<circle cx="'+ax.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="8" fill="'+CIRC+'"/><text x="'+ax.toFixed(1)+'" y="'+(cy+3).toFixed(1)+'" font-size="8.5" fill="#fff" text-anchor="middle" font-weight="500">'+rr+'</text>';
+        s+='<circle cx="'+ax.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="8" fill="'+CIRC+'"/><text x="'+ax.toFixed(1)+'" y="'+(cy+3).toFixed(1)+'" font-size="8.5" fill="#f4f1ec" text-anchor="middle" font-weight="500">'+rr+'</text>';
       }}
-    s+='<text x="'+(VB_W/2)+'" y="'+(rowY(1)-26)+'" font-size="11" fill="'+LABEL+'" text-anchor="middle">席番（横）</text>';
+    s+='<text x="'+(VB_W/2)+'" y="'+(rowY(1)-26)+'" font-size="11" fill="'+LABEL+'" text-anchor="middle" letter-spacing="1">席番（横）</text>';
     return s+'</svg>';
   }
-  document.getElementById('board').innerHTML=buildSVG();
-  var svg=document.querySelector('#board svg');
+  document.getElementById('stage').innerHTML=buildSVG();
+  var svg=document.querySelector('#stage svg');
 
+  /* ---------- pan / zoom ---------- */
+  var viewport=document.getElementById('viewport'), stage=document.getElementById('stage');
+  var scale=1, tx=0, ty=0, fitW=1, minS=1, maxS=8;
+  function applyT(){ stage.style.transform='translate('+tx.toFixed(1)+'px,'+ty.toFixed(1)+'px) scale('+scale.toFixed(4)+')'; }
+  function clampS(s){ return Math.max(minS, Math.min(s, maxS)); }
+  function fitWidth(){ var vw=viewport.clientWidth, vh=viewport.clientHeight; fitW=vw/VB_W; minS=fitW*0.9; maxS=fitW*10; scale=fitW; tx=0; ty=Math.max(0,(vh-VB_H*scale)/2); applyT(); }
+  function zoomAround(cx,cy,factor){ var ns=clampS(scale*factor); var wx=(cx-tx)/scale, wy=(cy-ty)/scale; scale=ns; tx=cx-wx*scale; ty=cy-wy*scale; applyT(); }
+  function dist(a,b){ return Math.hypot(a.x-b.x,a.y-b.y); }
+  function mid(a,b){ return {x:(a.x+b.x)/2,y:(a.y+b.y)/2}; }
+  var pts=new Map(), last=null, pDist=0, pMid=null;
+  function vpt(e){ var r=viewport.getBoundingClientRect(); return {x:e.clientX-r.left, y:e.clientY-r.top}; }
+  viewport.addEventListener('pointerdown',function(e){ viewport.setPointerCapture(e.pointerId); pts.set(e.pointerId,vpt(e)); viewport.classList.add('grabbing'); hideHint();
+    if(pts.size===1){ last=vpt(e); } else if(pts.size===2){ var a=Array.from(pts.values()); pDist=dist(a[0],a[1]); pMid=mid(a[0],a[1]); } });
+  viewport.addEventListener('pointermove',function(e){ if(!pts.has(e.pointerId)) return; pts.set(e.pointerId,vpt(e)); var arr=Array.from(pts.values());
+    if(pts.size===1){ e.preventDefault(); var p=arr[0]; tx+=p.x-last.x; ty+=p.y-last.y; last=p; applyT(); }
+    else if(pts.size>=2){ e.preventDefault(); var d=dist(arr[0],arr[1]), m=mid(arr[0],arr[1]);
+      if(pDist>0){ zoomAround(m.x,m.y, d/pDist); }
+      tx+=m.x-pMid.x; ty+=m.y-pMid.y; applyT(); pDist=d; pMid=m; } },{passive:false});
+  function endPt(e){ try{viewport.releasePointerCapture(e.pointerId);}catch(_){ } pts.delete(e.pointerId); if(pts.size===0) viewport.classList.remove('grabbing'); if(pts.size===1){ last=Array.from(pts.values())[0]; } else if(pts.size===2){ var a=Array.from(pts.values()); pDist=dist(a[0],a[1]); pMid=mid(a[0],a[1]); } }
+  viewport.addEventListener('pointerup',endPt); viewport.addEventListener('pointercancel',endPt);
+  viewport.addEventListener('wheel',function(e){ e.preventDefault(); var p=vpt(e); zoomAround(p.x,p.y, e.deltaY<0?1.18:1/1.18); hideHint(); },{passive:false});
+  viewport.addEventListener('dblclick',function(e){ var p=vpt(e); zoomAround(p.x,p.y, scale>fitW*1.6?(fitW/scale):2.4); });
+  document.getElementById('zin').addEventListener('click',function(){ zoomAround(viewport.clientWidth/2,viewport.clientHeight/2,1.45); });
+  document.getElementById('zout').addEventListener('click',function(){ zoomAround(viewport.clientWidth/2,viewport.clientHeight/2,1/1.45); });
+  document.getElementById('zfit').addEventListener('click',fitWidth);
+  var hintEl=document.getElementById('hint'), hintGone=false;
+  function hideHint(){ if(hintGone) return; hintGone=true; hintEl.style.opacity='0'; setTimeout(function(){ hintEl.style.display='none'; },600); }
+  setTimeout(hideHint,4200);
+  window.addEventListener('resize',function(){ fitWidth(); });
+  fitWidth();
+
+  /* ---------- legend / acts ---------- */
   function sw(c){ return '<span class="swatch" style="background:'+c+'"></span>'; }
+  document.getElementById('acts').innerHTML = FAN_ORDER.map(function(k){ return '<span class="act"><i style="background:'+FANS[k].c+'"></i>'+FANS[k].name+'</span>'; }).join('');
   document.getElementById('legend').innerHTML =
     '<span>'+sw(FANS.ave.c)+'Ave Mujica</span><span>'+sw(FANS.eql.c)+'＝LOVE</span><span>'+sw(FANS.ras.c)+'RAISE A SUILEN</span>'
-   +'<span><span class="swatch" style="background:#cfcfca;color:'+U_COLOR+';font-size:10px;font-weight:600;text-align:center;line-height:12px;width:13px;height:13px">U</span>U＝アップグレード席</span>';
+   +'<span><span class="swatch" style="background:#d8d4ca;color:'+U_COLOR+';font-size:9px;font-weight:700;text-align:center;line-height:11px">U</span>U＝アップグレード席</span>';
 
+  /* ---------- data / api ---------- */
   function seatExists(row,seat){ if(!(row>=1&&row<=34)||!(seat>=1&&seat<=140)) return false; var b=Math.ceil(seat/20); var rg=srange(b,row); return !!rg && seat>=rg[0] && seat<=rg[1]; }
   function uniq(a){ var o={},r=[]; a.forEach(function(x){ if(!o[x]){o[x]=1;r.push(x);} }); return r; }
   function parseSeats(str){ var out=[],bad=[]; str.split(',').forEach(function(p){ p=p.trim(); if(!p) return; var m=p.match(/^(\d+)\s*-\s*(\d+)$/); if(m){ var a=+m[1],b=+m[2]; if(a>b){var t=a;a=b;b=t;} for(var s=a;s<=b;s++) out.push(s); } else if(/^\d+$/.test(p)){ out.push(+p); } else { bad.push(p); } }); return {seats:out,bad:bad}; }
+  function uuid(){ if(window.crypto&&crypto.randomUUID) return crypto.randomUUID(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){var r=Math.random()*16|0,v=c==='x'?r:(r&0x3|0x8);return v.toString(16);}); }
+  function apiGet(){ return fetch(REST+"arena_entries?select=id,row_no,seat_str,seats,fan,upgrade,created_at&event=eq."+EVENT+"&order=created_at.asc",{headers:hdr()}).then(function(r){ if(!r.ok) throw new Error("load "+r.status); return r.json(); }); }
+  function apiInsert(rows){ return fetch(REST+"arena_entries",{method:"POST",headers:hdr({Prefer:"return=minimal"}),body:JSON.stringify(rows)}).then(function(r){ if(!r.ok) return r.text().then(function(t){ throw new Error("insert "+r.status+" "+t); }); return true; }); }
+  function apiDelete(id){ return fetch(REST+"rpc/delete_arena_entry",{method:"POST",headers:hdr(),body:JSON.stringify({p_id:id,p_token:ownerToken})}).then(function(r){ if(!r.ok) throw new Error("delete "+r.status); return r.json(); }); }
 
   var ownerToken, myIds;
   try{ ownerToken=localStorage.getItem('zaseki_owner'); if(!ownerToken){ ownerToken='b'+Math.random().toString(36).slice(2)+Date.now().toString(36); localStorage.setItem('zaseki_owner',ownerToken);} }catch(e){ ownerToken='anon-'+Math.random().toString(36).slice(2); }
   try{ myIds=new Set(JSON.parse(localStorage.getItem('zaseki_myids')||'[]')); }catch(e){ myIds=new Set(); }
   function saveMyIds(){ try{ localStorage.setItem('zaseki_myids', JSON.stringify(Array.prototype.slice.call(myIds))); }catch(e){} }
-
   function setStatus(t){ document.getElementById('status').textContent=t||''; }
-
-  // ---- API ----
-  function apiGet(){ return fetch(REST+"arena_entries?select=id,row_no,seat_str,seats,fan,upgrade,created_at&event=eq."+EVENT+"&order=created_at.asc",{headers:hdr()}).then(function(r){ if(!r.ok) throw new Error("load "+r.status); return r.json(); }); }
-  function uuid(){ if(window.crypto&&crypto.randomUUID) return crypto.randomUUID(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){var r=Math.random()*16|0,v=c==='x'?r:(r&0x3|0x8);return v.toString(16);}); }
-  function apiInsert(rows){ return fetch(REST+"arena_entries",{method:"POST",headers:hdr({Prefer:"return=minimal"}),body:JSON.stringify(rows)}).then(function(r){ if(!r.ok) return r.text().then(function(t){ throw new Error("insert "+r.status+" "+t); }); return true; }); }
-  function apiDelete(id){ return fetch(REST+"rpc/delete_arena_entry",{method:"POST",headers:hdr(),body:JSON.stringify({p_id:id,p_token:ownerToken})}).then(function(r){ if(!r.ok) throw new Error("delete "+r.status); return r.json(); }); }
 
   var entries=[];
   var uMarks=[], filled={};
   function addU(el){ var x=parseFloat(el.getAttribute('x')), y=parseFloat(el.getAttribute('y'));
     var t=document.createElementNS(SVGNS,'text');
     t.setAttribute('x',(x+CW/2).toFixed(1)); t.setAttribute('y',(y+CH-2.4).toFixed(1));
-    t.setAttribute('text-anchor','middle'); t.setAttribute('font-size','8'); t.setAttribute('font-weight','600');
+    t.setAttribute('text-anchor','middle'); t.setAttribute('font-size','8'); t.setAttribute('font-weight','700');
     t.setAttribute('fill',U_COLOR); t.setAttribute('pointer-events','none'); t.textContent='U';
     svg.appendChild(t); uMarks.push(t); }
   function clearBoard(){ for(var id in filled){ var el=document.getElementById(id); if(el){ el.setAttribute('fill',EMPTY); el.setAttribute('stroke',EMPTYS); el.setAttribute('stroke-width','0.5'); } } filled={};
@@ -163,8 +254,8 @@
     entries.forEach(function(e){ var F=FANS[e.fan]||FANS.ave; (e.seats||[]).forEach(function(seat){ var id='c_'+e.row_no+'_'+seat; var el=document.getElementById(id); if(el){ el.setAttribute('fill',F.c); el.setAttribute('stroke',F.d); el.setAttribute('stroke-width','0.6'); filled[id]=1; if(e.upgrade) addU(el); counts[e.fan]=(counts[e.fan]||0)+1; total++; if(e.upgrade) up++; } }); });
     function dot(c){return '<span class="swatch" style="background:'+c+'"></span>';}
     document.getElementById('count').innerHTML =
-      dot(FANS.ave.c)+'Ave '+counts.ave+' &nbsp; '+dot(FANS.eql.c)+'＝LOVE '+counts.eql+' &nbsp; '+dot(FANS.ras.c)+'RAS '+counts.ras
-      +' &nbsp;｜&nbsp; アップグレード '+up+' &nbsp;｜&nbsp; 計 '+total+' 席（全員）';
+      dot(FANS.ave.c)+'Ave '+counts.ave+'　'+dot(FANS.eql.c)+'＝LOVE '+counts.eql+'　'+dot(FANS.ras.c)+'RAS '+counts.ras
+      +'　／　アップグレード '+up+'　／　計 '+total+' 席';
   }
   function renderMyList(){
     var mine=entries.filter(function(e){ return myIds.has(e.id); });
@@ -172,21 +263,20 @@
     if(mine.length===0){ box.innerHTML='<div class="empty">このブラウザからの登録はまだありません。</div>'; return; }
     var rows=mine.map(function(e){ var F=FANS[e.fan]||FANS.ave;
       return '<tr><td>'+e.row_no+' 列</td><td>'+e.seat_str+' 番</td><td>'+sw(F.c)+F.name+'</td><td>'+(e.upgrade?'U':'')+'</td>'
-        +'<td style="text-align:right"><button class="icon del" data-id="'+e.id+'">削除</button></td></tr>'; }).join('');
+        +'<td style="text-align:right"><button class="ghost del" data-id="'+e.id+'">削除</button></td></tr>'; }).join('');
     box.innerHTML='<table class="saved"><thead><tr><th>列</th><th>番</th><th>ファン</th><th>UP</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
   }
+  function refresh(){ setStatus('読み込み中…'); return apiGet().then(function(data){ entries=data||[]; renderBoard(); renderMyList(); setStatus('全'+entries.length+'件 ・ '+new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})+' 更新'); }).catch(function(err){ setStatus('読み込みに失敗（'+err.message+'）'); }); }
 
-  function refresh(){ setStatus('読み込み中…'); return apiGet().then(function(data){ entries=data||[]; renderBoard(); renderMyList(); setStatus('全'+entries.length+'件 ・ 最終更新 '+new Date().toLocaleTimeString('ja-JP')); }).catch(function(err){ setStatus('読み込みに失敗しました（'+err.message+'）'); }); }
-
-  // ---- input lines + validation ----
+  /* ---------- input lines ---------- */
   function makeLine(){ var d=document.createElement('div'); d.className='line';
     var opts=FAN_ORDER.map(function(k){return '<option value="'+k+'">'+FANS[k].name+'</option>';}).join('');
     d.innerHTML='<div class="ctrls">'
-      +'<input class="r" type="number" min="1" max="34" placeholder="列"><span class="lbl">列</span>'
+      +'<input class="r" type="number" inputmode="numeric" min="1" max="34" placeholder="列"><span class="lbl">列</span>'
       +'<input class="s" type="text" inputmode="numeric" placeholder="番 (例 12 / 12-15)"><span class="lbl">番</span>'
       +'<select class="fan">'+opts+'</select>'
-      +'<span class="up"><label style="display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--sub)"><input type="checkbox" class="upc"> アップグレード席</label></span>'
-      +'<button class="del-line icon" aria-label="削除">×</button>'
+      +'<span class="chk"><input type="checkbox" class="upc"> アップグレード席</span>'
+      +'<button class="del-line ghost" aria-label="削除">×</button>'
       +'</div><div class="err"></div>';
     return d; }
   var lines=document.getElementById('lines');
@@ -210,7 +300,6 @@
       if(ne.length){ res.errors.push(row+'列に存在しない席番: '+uniq(ne).join(', ')); res.seatBad=true; } }
     res.valid = res.errors.length===0; return res;
   }
-
   function confirmApply(){
     var snapshot=Array.prototype.slice.call(lines.querySelectorAll('.line'));
     var payload=[], validLines=[], errLines=0, createdIds=[];
@@ -220,13 +309,13 @@
       rEl.style.borderColor=''; sEl.style.borderColor=''; errEl.style.display='none'; errEl.textContent='';
       if(res.skip){ if(lines.children.length>1) line.remove(); return; }
       if(!res.valid){ errLines++; errEl.style.display='block'; errEl.textContent='⚠ '+res.errors.join(' / ');
-        if(res.rowBad) rEl.style.borderColor=RED; if(res.seatBad) sEl.style.borderColor=RED; return; }
+        if(res.rowBad) rEl.style.borderColor='var(--danger)'; if(res.seatBad) sEl.style.borderColor='var(--danger)'; return; }
       var nid=uuid(); createdIds.push(nid);
       payload.push({ id:nid, event:EVENT, row_no:res.row, seat_str:res.seatStr, seats:res.seats, fan:res.fan, upgrade:res.up, owner_token:ownerToken });
       validLines.push(line);
     });
     var sum=document.getElementById('errsum');
-    if(errLines>0){ sum.style.display='block'; sum.textContent='⚠ '+errLines+' 行にエラーがあります。赤い欄を修正して、もう一度「決定」を押してください。'; }
+    if(errLines>0){ sum.style.display='block'; sum.textContent='⚠ '+errLines+' 行にエラーがあります。赤い欄を直して、もう一度「決定」を押してください。'; }
     else { sum.style.display='none'; sum.textContent=''; }
     if(payload.length===0){ if(lines.children.length===0) addLine(true); return; }
     var apply=document.getElementById('apply'); apply.disabled=true; setStatus('登録中…');
@@ -234,8 +323,9 @@
       createdIds.forEach(function(id){ myIds.add(id); }); saveMyIds();
       validLines.forEach(function(l){ l.remove(); });
       if(lines.children.length===0) addLine(true);
+      document.querySelector('.board').scrollIntoView({behavior:'smooth',block:'center'});
       return refresh();
-    }).catch(function(err){ setStatus(''); sum.style.display='block'; sum.textContent='サーバー登録に失敗しました（'+err.message+'）。時間をおいて再度お試しください。'; })
+    }).catch(function(err){ setStatus(''); sum.style.display='block'; sum.textContent='サーバー登録に失敗しました（'+err.message+'）。少し待って再度お試しください。'; })
     .then(function(){ apply.disabled=false; });
   }
 
@@ -247,7 +337,7 @@
   document.getElementById('list').addEventListener('click', function(e){ var b=e.target.closest('.del'); if(!b) return; var id=b.getAttribute('data-id'); b.disabled=true; setStatus('削除中…');
     apiDelete(id).then(function(ok){ if(ok){ myIds.delete(id); saveMyIds(); } else { alert('削除できませんでした（このブラウザの登録ではない可能性があります）。'); } return refresh(); }).catch(function(err){ setStatus(''); alert('削除に失敗しました: '+err.message); b.disabled=false; }); });
   document.getElementById('clearall').addEventListener('click', function(){ var mine=entries.filter(function(e){return myIds.has(e.id);}); if(mine.length===0) return; if(!confirm('このブラウザからの登録 '+mine.length+' 件をすべて削除しますか？')) return; setStatus('削除中…');
-    Promise.all(mine.map(function(e){ return apiDelete(e.id).then(function(ok){ if(ok) myIds.delete(e.id); }); })).then(function(){ saveMyIds(); return refresh(); }).catch(function(err){ setStatus('一部削除に失敗しました: '+err.message); }); });
+    Promise.all(mine.map(function(e){ return apiDelete(e.id).then(function(ok){ if(ok) myIds.delete(e.id); }); })).then(function(){ saveMyIds(); return refresh(); }).catch(function(err){ setStatus('一部削除に失敗: '+err.message); }); });
 
   addLine(false);
   refresh();
