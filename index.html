@@ -17,13 +17,12 @@
   html,body{ margin:0; }
   body{ font-family:"Zen Kaku Gothic New",system-ui,sans-serif; color:var(--ink); background:var(--bg); line-height:1.6; -webkit-font-smoothing:antialiased; }
   .wrap{ max-width:760px; margin:0 auto; padding:18px 14px 56px; }
-  .eyebrow{ font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--mut); font-weight:500; }
   .event{ display:inline-block; font-size:13px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); font-weight:700; border-bottom:2px solid var(--ink); padding-bottom:5px; }
   .event span{ color:var(--mut); font-weight:500; }
   h1{ font-size:27px; font-weight:500; margin:12px 0 0; letter-spacing:.02em; }
   .date{ font-size:12px; letter-spacing:.12em; color:var(--ink2); margin-top:4px; }
   .lead{ font-size:13.5px; color:var(--ink2); margin-top:9px; max-width:46em; }
-  .acts{ display:flex; gap:7px; flex-wrap:wrap; margin-top:9px; }
+  .acts{ display:flex; gap:7px; flex-wrap:wrap; margin-top:11px; }
   .act{ font-size:12px; letter-spacing:.02em; padding:3px 10px; border:1px solid var(--line2); border-radius:999px; color:var(--ink2); }
   .act i{ display:inline-block; width:8px; height:8px; border-radius:2px; margin-right:6px; vertical-align:0; }
 
@@ -31,15 +30,13 @@
   .sec-label{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--mut); font-weight:500; display:flex; align-items:center; gap:10px; margin-bottom:10px; }
   .sec-label::before{ content:""; width:18px; height:1px; background:var(--line2); }
 
-  /* board hero */
   .board{ position:relative; background:var(--surface); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
-  .viewport{ position:relative; width:100%; height:clamp(300px,56vh,600px); overflow:hidden; touch-action:none; background:
-      linear-gradient(var(--line) 0.5px,transparent 0.5px) 0 0/100% 100%; background-color:#fbfaf7; cursor:grab; }
+  .viewport{ position:relative; width:100%; height:clamp(300px,56vh,600px); overflow:hidden; touch-action:none; background-color:#fbfaf7; cursor:grab; }
   .viewport.grabbing{ cursor:grabbing; }
   .stage{ position:absolute; top:0; left:0; transform-origin:0 0; will-change:transform; }
   .stage svg{ display:block; }
   .toolbar{ position:absolute; right:10px; bottom:10px; display:flex; gap:6px; align-items:center; }
-  .zbtn{ width:38px; height:38px; border:1px solid var(--line2); background:rgba(255,255,255,.92); border-radius:10px; font-size:18px; color:var(--ink); display:flex; align-items:center; justify-content:center; cursor:pointer; backdrop-filter:blur(4px); }
+  .zbtn{ width:38px; height:38px; border:1px solid var(--line2); background:rgba(255,255,255,.92); border-radius:10px; font-size:18px; color:var(--ink); display:flex; align-items:center; justify-content:center; cursor:pointer; }
   .zbtn.fit{ width:auto; padding:0 12px; font-size:12px; letter-spacing:.04em; }
   .zbtn:active{ transform:scale(.95); }
   .hint{ position:absolute; left:12px; top:11px; font-size:11px; letter-spacing:.03em; color:var(--mut); background:rgba(255,255,255,.82); padding:3px 9px; border-radius:999px; pointer-events:none; transition:opacity .5s; }
@@ -56,37 +53,25 @@
   .share .pct{ color:var(--mut); font-size:12px; font-variant-numeric:tabular-nums; }
   .tot{ font-size:12px; color:var(--mut); margin-top:9px; letter-spacing:.03em; font-variant-numeric:tabular-nums; }
 
-  /* panel / form */
   .panel{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px; }
-  .line{ margin-bottom:10px; }
-  .ctrls{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
-  .lbl{ font-size:14px; color:var(--ink2); }
-  input[type=number],input[type=text],select{ font:inherit; font-size:16px; height:44px; padding:0 11px; border:1px solid var(--line2); border-radius:10px; background:#fff; color:var(--ink); }
-  input.r{ width:64px; text-align:center; } input.s{ flex:1; min-width:120px; }
-  select{ height:44px; }
-  .chk{ display:inline-flex; align-items:center; gap:7px; font-size:14px; color:var(--ink2); height:44px; }
-  .chk input{ width:18px; height:18px; }
-  button{ font:inherit; font-size:15px; height:44px; padding:0 16px; border:1px solid var(--line2); border-radius:10px; background:#fff; color:var(--ink); cursor:pointer; }
+  .formgrid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
+  .fld{ display:flex; flex-direction:column; gap:5px; }
+  .flab{ font-size:12px; color:var(--mut); letter-spacing:.05em; }
+  input[type=number],select{ font:inherit; font-size:16px; height:46px; padding:0 11px; border:1px solid var(--line2); border-radius:10px; background:#fff; color:var(--ink); width:100%; }
+  select:required:invalid{ color:var(--mut); }
+  button{ font:inherit; font-size:15px; height:46px; padding:0 18px; border:1px solid var(--line2); border-radius:10px; background:#fff; color:var(--ink); cursor:pointer; }
   button:hover{ background:#f3f1ec; }
   button.primary{ background:var(--accent); border-color:var(--accent); color:#fbfaf7; letter-spacing:.04em; }
   button.primary:active{ transform:scale(.99); }
-  button.del-line{ width:44px; padding:0; color:var(--mut); }
   button.ghost{ background:transparent; border-color:var(--line2); }
-  .btnrow{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:4px; }
+  button:disabled{ opacity:.55; }
+  .btnrow{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:13px; }
   .status{ font-size:12px; color:var(--mut); margin-left:auto; }
-  .err{ font-size:12px; color:var(--danger); margin-top:4px; display:none; }
-  .errsum{ display:none; font-size:13px; color:var(--danger); background:var(--danger-bg); border:1px solid #eccfc6; border-radius:10px; padding:9px 11px; margin-top:10px; }
-  .hinttext{ font-size:12px; color:var(--mut); margin-top:9px; }
-  code{ background:#efece5; padding:1px 6px; border-radius:5px; font-size:12px; }
-
-  .listhead{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:4px; }
-  table.saved{ width:100%; border-collapse:collapse; font-size:14px; }
-  table.saved th{ text-align:left; color:var(--mut); font-weight:500; font-size:11px; letter-spacing:.08em; text-transform:uppercase; border-bottom:1px solid var(--line); padding:8px 6px; }
-  table.saved td{ border-bottom:1px solid #f0ede6; padding:9px 6px; }
-  table.saved td button{ height:34px; padding:0 12px; font-size:13px; }
-  .empty{ color:var(--mut); font-size:13px; padding:14px 2px; }
+  .errsum{ display:none; font-size:13px; color:var(--danger); background:var(--danger-bg); border:1px solid #eccfc6; border-radius:10px; padding:9px 11px; margin-top:11px; }
+  .hinttext{ font-size:12px; color:var(--mut); margin-top:10px; }
   .foot{ font-size:11.5px; color:var(--mut); margin-top:22px; line-height:1.7; }
-  @media(max-width:520px){ .wrap{ padding:16px 11px 48px; } h1{ font-size:21px; } input.r{ width:58px; } }
+  @media(min-width:560px){ .formgrid{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
+  @media(max-width:520px){ .wrap{ padding:16px 11px 48px; } h1{ font-size:23px; } }
 </style>
 </head>
 <body>
@@ -117,31 +102,24 @@
   <section>
     <div class="sec-label">Add your seat</div>
     <div class="panel">
-      <div id="lines"></div>
+      <div class="formgrid">
+        <div class="fld"><span class="flab">列</span><input class="r" type="number" inputmode="numeric" min="1" max="34" placeholder="1〜34"></div>
+        <div class="fld"><span class="flab">番</span><input class="s" type="number" inputmode="numeric" min="1" max="140" placeholder="1〜140"></div>
+        <div class="fld"><span class="flab">ファン</span><select class="fan" required><option value="" disabled selected>選択してください</option></select></div>
+        <div class="fld"><span class="flab">席種</span><select class="up" required><option value="" disabled selected>選択してください</option><option value="0">通常席</option><option value="1">アップグレード席</option></select></div>
+      </div>
       <div class="btnrow">
-        <button id="apply" class="primary">決定して登録</button>
-        <button id="add" class="ghost">＋ 入力を追加</button>
+        <button id="apply" class="primary">この席を登録</button>
         <button id="reload" class="ghost">更新</button>
         <span id="status" class="status"></span>
       </div>
       <div id="errsum" class="errsum"></div>
-      <div class="hinttext">連番は「番」に <code>12-15</code> や <code>12,13,14</code> とまとめて入力できます。</div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-label">Your entries</div>
-    <div class="panel">
-      <div class="listhead">
-        <span style="font-size:13px;color:var(--ink2)">このブラウザで登録したものだけ削除できます</span>
-        <button id="clearall" class="ghost" style="height:36px;padding:0 12px;font-size:13px">すべて削除</button>
-      </div>
-      <div id="list"></div>
+      <div class="hinttext">1席ずつ登録します。すでに登録済みの席に登録すると、後の内容で<b>上書き</b>されます（列・番・ファン・席種はすべて必須）。</div>
     </div>
   </section>
 
   <div class="foot">
-    盤面はみんなの登録の合算です。投稿者の情報は保持しません。削除できるのは「このブラウザで登録したもの」だけです（他の人の登録は消せません）。<br>
+    盤面はみんなの登録の合算です。同じ席は後から登録した内容で上書きされます。投稿者の情報は保持しません。<br>
     席番は実際の固定席番（1〜140 / 全34列）を再現。前後の角は実際の座席図にあわせて欠けています。
   </div>
 </div>
@@ -235,20 +213,14 @@
   document.getElementById('legend').innerHTML =
     '<span>'+sw(FANS.ave.c)+'Ave Mujica</span><span>'+sw(FANS.eql.c)+'＝LOVE</span><span>'+sw(FANS.ras.c)+'RAISE A SUILEN</span>'
    +'<span><span class="swatch" style="background:#d8d4ca;color:'+U_COLOR+';font-size:9px;font-weight:700;text-align:center;line-height:11px">U</span>U＝アップグレード席</span>';
+  // fan options
+  var fanSel=document.querySelector('.fan');
+  FAN_ORDER.forEach(function(k){ var o=document.createElement('option'); o.value=k; o.textContent=FANS[k].name; fanSel.appendChild(o); });
 
   /* ---------- data / api ---------- */
   function seatExists(row,seat){ if(!(row>=1&&row<=34)||!(seat>=1&&seat<=140)) return false; var b=Math.ceil(seat/20); var rg=srange(b,row); return !!rg && seat>=rg[0] && seat<=rg[1]; }
-  function uniq(a){ var o={},r=[]; a.forEach(function(x){ if(!o[x]){o[x]=1;r.push(x);} }); return r; }
-  function parseSeats(str){ var out=[],bad=[]; str.split(',').forEach(function(p){ p=p.trim(); if(!p) return; var m=p.match(/^(\d+)\s*-\s*(\d+)$/); if(m){ var a=+m[1],b=+m[2]; if(a>b){var t=a;a=b;b=t;} for(var s=a;s<=b;s++) out.push(s); } else if(/^\d+$/.test(p)){ out.push(+p); } else { bad.push(p); } }); return {seats:out,bad:bad}; }
-  function uuid(){ if(window.crypto&&crypto.randomUUID) return crypto.randomUUID(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){var r=Math.random()*16|0,v=c==='x'?r:(r&0x3|0x8);return v.toString(16);}); }
-  function apiGet(){ return fetch(REST+"arena_entries?select=id,row_no,seat_str,seats,fan,upgrade,created_at&event=eq."+EVENT+"&order=created_at.asc",{headers:hdr()}).then(function(r){ if(!r.ok) throw new Error("load "+r.status); return r.json(); }); }
-  function apiInsert(rows){ return fetch(REST+"arena_entries",{method:"POST",headers:hdr({Prefer:"return=minimal"}),body:JSON.stringify(rows)}).then(function(r){ if(!r.ok) return r.text().then(function(t){ throw new Error("insert "+r.status+" "+t); }); return true; }); }
-  function apiDelete(id){ return fetch(REST+"rpc/delete_arena_entry",{method:"POST",headers:hdr(),body:JSON.stringify({p_id:id,p_token:ownerToken})}).then(function(r){ if(!r.ok) throw new Error("delete "+r.status); return r.json(); }); }
-
-  var ownerToken, myIds;
-  try{ ownerToken=localStorage.getItem('zaseki_owner'); if(!ownerToken){ ownerToken='b'+Math.random().toString(36).slice(2)+Date.now().toString(36); localStorage.setItem('zaseki_owner',ownerToken);} }catch(e){ ownerToken='anon-'+Math.random().toString(36).slice(2); }
-  try{ myIds=new Set(JSON.parse(localStorage.getItem('zaseki_myids')||'[]')); }catch(e){ myIds=new Set(); }
-  function saveMyIds(){ try{ localStorage.setItem('zaseki_myids', JSON.stringify(Array.prototype.slice.call(myIds))); }catch(e){} }
+  function apiGet(){ return fetch(REST+"arena_entries?select=id,row_no,seat,fan,upgrade&event=eq."+EVENT,{headers:hdr()}).then(function(r){ if(!r.ok) throw new Error("load "+r.status); return r.json(); }); }
+  function apiUpsert(row){ return fetch(REST+"rpc/upsert_seat",{method:"POST",headers:hdr(),body:JSON.stringify({p_row:row.row_no,p_seat:row.seat,p_fan:row.fan,p_upgrade:row.upgrade})}).then(function(r){ if(!r.ok) return r.text().then(function(t){ throw new Error("save "+r.status+" "+t); }); return true; }); }
   function setStatus(t){ document.getElementById('status').textContent=t||''; }
 
   var entries=[];
@@ -262,97 +234,48 @@
   function clearBoard(){ for(var id in filled){ var el=document.getElementById(id); if(el){ el.setAttribute('fill',EMPTY); el.setAttribute('stroke',EMPTYS); el.setAttribute('stroke-width','0.5'); } } filled={};
     uMarks.forEach(function(t){ if(t.parentNode) t.parentNode.removeChild(t); }); uMarks=[]; }
   function renderBoard(){ clearBoard(); var counts={ave:0,eql:0,ras:0}, up=0, total=0;
-    entries.forEach(function(e){ var F=FANS[e.fan]||FANS.ave; (e.seats||[]).forEach(function(seat){ var id='c_'+e.row_no+'_'+seat; var el=document.getElementById(id); if(el){ el.setAttribute('fill',F.c); el.setAttribute('stroke',F.d); el.setAttribute('stroke-width','0.6'); filled[id]=1; if(e.upgrade) addU(el); counts[e.fan]=(counts[e.fan]||0)+1; total++; if(e.upgrade) up++; } }); });
-    function pct(n){ return total? Math.round(n/total*100):0; }
+    entries.forEach(function(e){ var F=FANS[e.fan]; if(!F) return; var id='c_'+e.row_no+'_'+e.seat; var el=document.getElementById(id); if(el){ el.setAttribute('fill',F.c); el.setAttribute('stroke',F.d); el.setAttribute('stroke-width','0.6'); filled[id]=1; if(e.upgrade) addU(el); counts[e.fan]++; total++; if(e.upgrade) up++; } });
+    var pct=function(n){ return total? Math.round(n/total*100):0; };
     var segs=FAN_ORDER.map(function(k){ var w=total?(counts[k]/total*100):0; return '<div class="seg" style="width:'+w.toFixed(2)+'%;background:'+FANS[k].c+'" title="'+FANS[k].name+'"></div>'; }).join('');
     var shares=FAN_ORDER.map(function(k){ return '<span class="share">'+sw(FANS[k].c)+'<span class="nm">'+FANS[k].name+'</span> <b>'+counts[k]+'席</b> <span class="pct">'+pct(counts[k])+'%</span></span>'; }).join('');
     document.getElementById('balance').innerHTML = (total===0)
       ? '<div class="bar"></div><div class="tot">まだ登録がありません。最初の1席を入れて、勢力図を動かそう。</div>'
       : '<div class="bar">'+segs+'</div><div class="shares">'+shares+'</div><div class="tot">計 '+total+' 席　／　アップグレード '+up+' 席</div>';
   }
-  function renderMyList(){
-    var mine=entries.filter(function(e){ return myIds.has(e.id); });
-    var box=document.getElementById('list');
-    if(mine.length===0){ box.innerHTML='<div class="empty">このブラウザからの登録はまだありません。</div>'; return; }
-    var rows=mine.map(function(e){ var F=FANS[e.fan]||FANS.ave;
-      return '<tr><td>'+e.row_no+' 列</td><td>'+e.seat_str+' 番</td><td>'+sw(F.c)+F.name+'</td><td>'+(e.upgrade?'U':'')+'</td>'
-        +'<td style="text-align:right"><button class="ghost del" data-id="'+e.id+'">削除</button></td></tr>'; }).join('');
-    box.innerHTML='<table class="saved"><thead><tr><th>列</th><th>番</th><th>ファン</th><th>UP</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
-  }
-  function refresh(){ setStatus('読み込み中…'); return apiGet().then(function(data){ entries=data||[]; renderBoard(); renderMyList(); setStatus('全'+entries.length+'件 ・ '+new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})+' 更新'); }).catch(function(err){ setStatus('読み込みに失敗（'+err.message+'）'); }); }
+  function refresh(){ setStatus('読み込み中…'); return apiGet().then(function(data){ entries=data||[]; renderBoard(); setStatus('全'+entries.length+'席 ・ '+new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})+' 更新'); }).catch(function(err){ setStatus('読み込みに失敗（'+err.message+'）'); }); }
 
-  /* ---------- input lines ---------- */
-  function makeLine(){ var d=document.createElement('div'); d.className='line';
-    var opts=FAN_ORDER.map(function(k){return '<option value="'+k+'">'+FANS[k].name+'</option>';}).join('');
-    d.innerHTML='<div class="ctrls">'
-      +'<input class="r" type="number" inputmode="numeric" min="1" max="34" placeholder="列"><span class="lbl">列</span>'
-      +'<input class="s" type="text" inputmode="numeric" placeholder="番 (例 12 / 12-15)"><span class="lbl">番</span>'
-      +'<select class="fan">'+opts+'</select>'
-      +'<span class="chk"><input type="checkbox" class="upc"> アップグレード席</span>'
-      +'<button class="del-line ghost" aria-label="削除">×</button>'
-      +'</div><div class="err"></div>';
-    return d; }
-  var lines=document.getElementById('lines');
-  function addLine(focus){ var l=makeLine(); lines.appendChild(l); if(focus) l.querySelector('.r').focus(); return l; }
-
-  function validateLine(line){
-    var rv=line.querySelector('.r').value.trim(), sv=line.querySelector('.s').value.trim();
-    var res={errors:[],rowBad:false,seatBad:false,seats:[],seatStr:sv,fan:line.querySelector('.fan').value,up:line.querySelector('.upc').checked,row:null,skip:false};
-    if(!rv && !sv){ res.skip=true; return res; }
-    if(!rv){ res.errors.push('列を入力してください'); res.rowBad=true; }
-    if(!sv){ res.errors.push('番を入力してください'); res.seatBad=true; }
-    if(!rv || !sv) return res;
-    var rowOk=/^\d+$/.test(rv); var row=parseInt(rv,10); res.row=row;
-    if(!rowOk || row<1 || row>34){ res.errors.push('列は 1〜34 の数字'); res.rowBad=true; }
-    var pr=parseSeats(sv); res.seats=pr.seats;
-    if(pr.bad.length){ res.errors.push('番の形式が不正: '+pr.bad.join(', ')); res.seatBad=true; }
-    if(pr.seats.length===0 && pr.bad.length===0){ res.errors.push('番を入力してください'); res.seatBad=true; }
-    var oor=pr.seats.filter(function(s){return s<1||s>140;});
-    if(oor.length){ res.errors.push('番は 1〜140（範囲外: '+uniq(oor).join(', ')+'）'); res.seatBad=true; }
-    if(rowOk && row>=1 && row<=34){ var ne=pr.seats.filter(function(s){return s>=1&&s<=140 && !seatExists(row,s);});
-      if(ne.length){ res.errors.push(row+'列に存在しない席番: '+uniq(ne).join(', ')); res.seatBad=true; } }
-    res.valid = res.errors.length===0; return res;
+  /* ---------- input (single seat / required / overwrite) ---------- */
+  function validate(){
+    var rEl=document.querySelector('.r'), sEl=document.querySelector('.s'), fEl=document.querySelector('.fan'), uEl=document.querySelector('.up');
+    [rEl,sEl,fEl,uEl].forEach(function(e){ e.style.borderColor=''; });
+    var errs=[], rv=rEl.value.trim(), sv=sEl.value.trim(), fan=fEl.value, up=uEl.value, row=null, seat=null;
+    if(!rv){ errs.push('列を入力してください'); rEl.style.borderColor='var(--danger)'; }
+    else if(!/^\d+$/.test(rv)||+rv<1||+rv>34){ errs.push('列は 1〜34 の数字'); rEl.style.borderColor='var(--danger)'; } else row=+rv;
+    if(!sv){ errs.push('番を入力してください'); sEl.style.borderColor='var(--danger)'; }
+    else if(!/^\d+$/.test(sv)||+sv<1||+sv>140){ errs.push('番は 1〜140 の数字（1席ずつ）'); sEl.style.borderColor='var(--danger)'; } else seat=+sv;
+    if(row!==null && seat!==null && !seatExists(row,seat)){ errs.push(row+'列に '+seat+'番 は存在しません'); sEl.style.borderColor='var(--danger)'; seat=null; }
+    if(!fan){ errs.push('ファンを選択してください'); fEl.style.borderColor='var(--danger)'; }
+    if(up===''){ errs.push('席種を選択してください'); uEl.style.borderColor='var(--danger)'; }
+    return { ok:(errs.length===0 && row!==null && seat!==null && !!fan && up!==''), row:row, seat:seat, fan:fan, upgrade:(up==='1'), errors:errs };
   }
   function confirmApply(){
-    var snapshot=Array.prototype.slice.call(lines.querySelectorAll('.line'));
-    var payload=[], validLines=[], errLines=0, createdIds=[];
-    snapshot.forEach(function(line){
-      var res=validateLine(line);
-      var errEl=line.querySelector('.err'), rEl=line.querySelector('.r'), sEl=line.querySelector('.s');
-      rEl.style.borderColor=''; sEl.style.borderColor=''; errEl.style.display='none'; errEl.textContent='';
-      if(res.skip){ if(lines.children.length>1) line.remove(); return; }
-      if(!res.valid){ errLines++; errEl.style.display='block'; errEl.textContent='⚠ '+res.errors.join(' / ');
-        if(res.rowBad) rEl.style.borderColor='var(--danger)'; if(res.seatBad) sEl.style.borderColor='var(--danger)'; return; }
-      var nid=uuid(); createdIds.push(nid);
-      payload.push({ id:nid, event:EVENT, row_no:res.row, seat_str:res.seatStr, seats:res.seats, fan:res.fan, upgrade:res.up, owner_token:ownerToken });
-      validLines.push(line);
-    });
-    var sum=document.getElementById('errsum');
-    if(errLines>0){ sum.style.display='block'; sum.textContent='⚠ '+errLines+' 行にエラーがあります。赤い欄を直して、もう一度「決定」を押してください。'; }
-    else { sum.style.display='none'; sum.textContent=''; }
-    if(payload.length===0){ if(lines.children.length===0) addLine(true); return; }
+    var v=validate(), sum=document.getElementById('errsum');
+    if(!v.ok){ sum.style.display='block'; sum.textContent='⚠ '+v.errors.join(' / '); return; }
+    sum.style.display='none'; sum.textContent='';
     var apply=document.getElementById('apply'); apply.disabled=true; setStatus('登録中…');
-    apiInsert(payload).then(function(){
-      createdIds.forEach(function(id){ myIds.add(id); }); saveMyIds();
-      validLines.forEach(function(l){ l.remove(); });
-      if(lines.children.length===0) addLine(true);
+    apiUpsert({ event:EVENT, row_no:v.row, seat:v.seat, fan:v.fan, upgrade:v.upgrade }).then(function(){
+      document.querySelector('.r').value=''; document.querySelector('.s').value='';
+      document.querySelector('.r').focus();
       document.querySelector('.board').scrollIntoView({behavior:'smooth',block:'center'});
       return refresh();
-    }).catch(function(err){ setStatus(''); sum.style.display='block'; sum.textContent='サーバー登録に失敗しました（'+err.message+'）。少し待って再度お試しください。'; })
+    }).catch(function(err){ setStatus(''); sum.style.display='block'; sum.textContent='登録に失敗しました（'+err.message+'）。少し待って再度お試しください。'; })
     .then(function(){ apply.disabled=false; });
   }
 
-  lines.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); confirmApply(); } });
-  lines.addEventListener('click', function(e){ var b=e.target.closest('.del-line'); if(!b) return; var ln=b.closest('.line'); if(lines.children.length>1){ ln.remove(); } else { ln.querySelector('.r').value=''; ln.querySelector('.s').value=''; ln.querySelector('.upc').checked=false; ln.querySelector('.err').style.display='none'; } });
   document.getElementById('apply').addEventListener('click', confirmApply);
-  document.getElementById('add').addEventListener('click', function(){ addLine(true); });
   document.getElementById('reload').addEventListener('click', refresh);
-  document.getElementById('list').addEventListener('click', function(e){ var b=e.target.closest('.del'); if(!b) return; var id=b.getAttribute('data-id'); b.disabled=true; setStatus('削除中…');
-    apiDelete(id).then(function(ok){ if(ok){ myIds.delete(id); saveMyIds(); } else { alert('削除できませんでした（このブラウザの登録ではない可能性があります）。'); } return refresh(); }).catch(function(err){ setStatus(''); alert('削除に失敗しました: '+err.message); b.disabled=false; }); });
-  document.getElementById('clearall').addEventListener('click', function(){ var mine=entries.filter(function(e){return myIds.has(e.id);}); if(mine.length===0) return; if(!confirm('このブラウザからの登録 '+mine.length+' 件をすべて削除しますか？')) return; setStatus('削除中…');
-    Promise.all(mine.map(function(e){ return apiDelete(e.id).then(function(ok){ if(ok) myIds.delete(e.id); }); })).then(function(){ saveMyIds(); return refresh(); }).catch(function(err){ setStatus('一部削除に失敗: '+err.message); }); });
+  document.querySelector('.panel').addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); confirmApply(); } });
 
-  addLine(false);
   refresh();
   setInterval(refresh, 30000);
 })();
