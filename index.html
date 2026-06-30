@@ -110,7 +110,6 @@
       </div>
       <div class="btnrow">
         <button id="apply" class="primary">この席を登録</button>
-        <button id="reload" class="ghost">更新</button>
         <span id="status" class="status"></span>
       </div>
       <div id="errsum" class="errsum"></div>
@@ -273,7 +272,6 @@
   }
 
   document.getElementById('apply').addEventListener('click', confirmApply);
-  document.getElementById('reload').addEventListener('click', refresh);
   document.querySelector('.panel').addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); confirmApply(); } });
 
   refresh();
